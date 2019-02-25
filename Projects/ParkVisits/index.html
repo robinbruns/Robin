@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset=utf-8 />
-	<title>National Park Visits</title>
+	<title>National Park Service Visitation</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.css" />
@@ -145,7 +145,7 @@
 
 <body>
 
-	<h1>National Parks Visitation</h1>
+	<h1>National Park Service Visitation</h1>
 
 	<div id='map'>
 	<a href="http://mapbox.com/about/maps" class='mapbox-wordmark' target="_blank">Mapbox</a>
@@ -244,7 +244,7 @@
 					// radius: layer.feature.properties.Visits_Average * .000005,
 					radius: getRadius(layer.feature.properties.Visits_Average),
 					weight: 1.5,
-					fillOpacity: .6,
+					fillOpacity: .5,
 				});
 			})
 			visitsLayer.eachLayer(function(layer) {
