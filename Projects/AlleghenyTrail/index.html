@@ -44,9 +44,9 @@
   <footer>
 
   </footer>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
-  <script src="data/ALT_201902.js"></script>
+
   <script>
     var options = {
       center: [38.77, -80],
@@ -65,23 +65,26 @@
     }
 
     var tiles = L.tileLayer(basemap_url, basemap_attributes).addTo(map);
-    var myRoute = L.geoJson(routeData, {
-      filter : function(feature) {
-  				if(feature.geometry.type == "MultiLineString") {
-  						return feature;
-  				}
-  		},
-  		style : function(feature) {
 
-  				return {
-  						color: "blue",
-  						weight: 4,
-  						opacity: .6,
-  						dashArray: "5, 5"
-  				}
-  		}
-    }).addTo(map);
-
+    var trailLayer = $.getJSON("data/ALT_201903.geojson", function(data) {
+      console.log(data);
+      var routeLayer = L.geoJson(data, {
+        filter : function(feature) {
+          				if(feature.geometry.type == "MultiLineString") {
+          						return feature;
+          				}
+          		},
+        style: function(feature) {
+          return {
+            color: '#ebd22d',
+            weight: 3,
+            opacity: .6,
+            dashArray: "5, 5"
+          };
+        }
+      })
+      routeLayer.addTo(map)
+    });
     // var myPoints = L.geoJson(routeData, {
     //       filter : function(feature) {
     //   				if(feature.geometry.type == "Point") {
