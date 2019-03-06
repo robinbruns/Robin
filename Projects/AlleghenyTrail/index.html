@@ -31,7 +31,7 @@
 <body>
   <header>
     <h1>
-      Allegheny Trail
+      The Allegheny Trail
     </h1>
   </header>
   <section>
@@ -66,7 +66,7 @@
 
     var tiles = L.tileLayer(basemap_url, basemap_attributes).addTo(map);
 
-    var trailLayer = $.getJSON("data/ALT_201903.geojson", function(data) {
+    var trailLayer = $.getJSON("data/ALT_201903.json", function(data) {
       console.log(data);
       var routeLayer = L.geoJson(data, {
         filter : function(feature) {
