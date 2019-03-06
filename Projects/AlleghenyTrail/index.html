@@ -38,7 +38,7 @@
     <div id='map'></div>
     <h2></h2>
     <p>
-      Map in development. Trail accuracy varies.
+      Trail accuracy may vary.
     </p>
   </section>
   <footer>
@@ -46,12 +46,13 @@
   </footer>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.4/leaflet.js"></script>
-  <script src="data/ALT_201901.js"></script>
+  <script src="data/ALT_201902.js"></script>
   <script>
     var options = {
-      center: [38.4, -80],
-      zoom: 8.5,
+      center: [38.77, -80],
+      zoom: 8.4,
       zoomSnap: .5,
+      minZoom: 7,
     }
     var map = L.map('map', options);
 
@@ -65,7 +66,12 @@
 
     var tiles = L.tileLayer(basemap_url, basemap_attributes).addTo(map);
     var myRoute = L.geoJson(routeData, {
-      style : function(feature) {
+      filter : function(feature) {
+  				if(feature.geometry.type == "MultiLineString") {
+  						return feature;
+  				}
+  		},
+  		style : function(feature) {
 
   				return {
   						color: "blue",
@@ -75,6 +81,26 @@
   				}
   		}
     }).addTo(map);
+
+    // var myPoints = L.geoJson(routeData, {
+    //       filter : function(feature) {
+    //   				if(feature.geometry.type == "Point") {
+    //   						return feature;
+    //   				}
+    //   		},
+    //       style : function(feature) {
+    //         return {
+    //           fillColor: 'pink',
+    //         }
+    //       },
+    //   		onEachFeature : function(feature, layer) {
+    //
+    //   //				console.log(feature.properties)
+    //   		layer.bindPopup(feature.properties.feature);
+    //   		}
+    //         }).addTo(map);
+
+
   </script>
 </body>
 
