@@ -67,7 +67,7 @@
 
     var tiles = L.tileLayer(basemap_url, basemap_attributes).addTo(map);
 
-    var trailLayer = $.getJSON("projects/alleghenytrail/data/201903.geojson", function(data) {
+    var trailLayer = $.getJSON("data/201903.geojson", function(data) {
       // console.log(data);
       var routeLayer = L.geoJson(data, {
         filter : function(feature) {
