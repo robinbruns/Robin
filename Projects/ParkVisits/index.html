@@ -154,7 +154,7 @@
 
 	<section id="about">
 		<h2>About</h2>
-		<p>The National Park System preserves natural and cultural resources on over 85 million acres of public land. Over 330 million visits were made to National Park Service units in 2017. On this map, markers at the park center point represent average annual recreational visits, measured from 1998 to 2017. Data was provided by National Park Service
+		<p>The National Park System preserves natural and cultural resources on over 85 million acres of public land. Over 318 million visits were made to National Park Service units in 2018. On this map, markers at the park center point represent average annual recreational visits, measured from 1998 to 2018. Data was provided by National Park Service
 			<a href='https://public-nps.opendata.arcgis.com/'>Open Data </a>
 			and
 			<a href="https://irma.nps.gov/Portal/">Integrated Resource Management Applications Portal</a>.
@@ -173,7 +173,7 @@
 			zoom: 4.6,
 			zoomSnap: .1,
 			zoomControl: false,
-			minZoom: 2,
+			minZoom: 3.5,
 		}
 
 		var map = L.map('map', options);
@@ -219,7 +219,8 @@
 		// // when parksLayer is done loading, do the following...
 		// $.when(parks).done(function() {
 		//Annual Visitation Reports by Park data from https://irma.nps.gov/Stats/SSRSReports/National%20Reports/Annual%20Visitation%20By%20Park%20(1979%20-%20Last%20Calendar%20Year)
-		$.getJSON("data/parkvisits_centroids.geojson", function(data) {
+		$.getJSON("data/parkvisits_centroids_2018.geojson", function(data) {
+			console.log(data);
 			data.features.sort(function(a, b) {
 				return b.properties.Visits_Average - a.properties.Visits_Average;
 			})
@@ -276,8 +277,8 @@
 			dataLayer.eachLayer(function(layer) {
 				var visits = Number(layer.feature.properties.Visits_Average).toLocaleString();
 				var tooltip = "<span></span>";
-				if (layer.feature.properties.FIRST_UNIT) {
-					tooltip += "<b>" + layer.feature.properties.FIRST_UNIT + "</b>" + "<br />" + "<b>Annual Visitors: </b>" + visits;
+				if (layer.feature.properties.FIRST_NAME) {
+					tooltip += "<b>" + layer.feature.properties.FIRST_NAME + "</b>" + "<br />" + "<b>Annual Visitors: </b>" + visits;
 				}
 				if (L.Browser.mobile) {
 					// if true use popup
