@@ -7,6 +7,7 @@
 	<title>My Homepage</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <style>
 
@@ -31,70 +32,16 @@
   text-align: center;
   }
 
-
   .square {
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 350px;
-    height: 350px;
+    width: 500px;
+    height: 500px;
     max-width: 100%;
     object-fit: cover;
     border: solid;
   }
-
-  .container{
-  display: flex;
-  flex-wrap: wrap;
-  }
-
-
-  /* @media screen and (max-width: 700px) { */
-  .box1, .box2, .box3{
-    width: 100%;
-  }
-  /* } */
-
-  /* @media screen and (min-width: 701px) and (max-width: 1100px) { */
-  /* .box1 {
-    float: left;
-    width: 32%;
-    padding-right: 2%;
-    }
-
-  .box2 {
-    float: left;
-    width: 32%;
-    padding-right: 2%;
-    }
-
-  .box3 {
-    float: left;
-    width: 32%;
-    } */
-    /* .box1{
-    width: 50%;
-    }
-    .box2{
-    width: 50%;
-    }
-    .box3{
-    width: 50%;
-    }
-  } */
-
-  /* @media screen and (min-width: 1101px) {
-    .box1{
-    width: 33%;
-    }
-    .box2{
-    width: 33%;
-    }
-    .box3{
-    width: 33%;
-
-    }
-  } */
 
 </style>
 </head>
@@ -112,29 +59,51 @@
 <br />
 
  <h2>Projects</h2>
+ <!-- First Photo Grid-->
+  <div class="w3-row-padding">
+    <div class="w3-third w3-container w3-margin-bottom">
+      <a href="https://robinmaps.com/project/parkvisits/index.html"><img src="/images/Parkvisits.PNG" alt="National Park Visits Map" style="width:100%" class="w3-hover-opacity, square"></a>
+      <div class="w3-container w3-grey">
+        <p><b>National Park Visitation</b></p>
 
-<div class = 'container'>
-    <div class='box1'>
-     <h4>US Forest Service:
-     <a href="https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/stelprdb5066342.pdf">
-       Highland Scenic Highway</a> </h4>
-      <img src="/images/HSH.PNG" alt="Highland Scenic Highway Map" class="square" >
-   </div>
-
-  <div class='box2'>
-    <h4>US Forest Service:
-    <a href="https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/stelprdb5350764.pdf">
-      Marlin Mountain Trail System</a> </h4>
-    <img src="/images/MarlinMountain.PNG" alt="Marlin Mountain Trail System Map" class="square" >
+      </div>
+    </div>
+    <div class="w3-third w3-container w3-margin-bottom">
+      <a href="project/ridepocahontas/TeaCreekMap.pdf"><img src="/images/teacreek.png" alt="Allegheney Trail Map" style="width:100%" class="w3-hover-opacity, square"></a>
+      <div class="w3-container w3-grey">
+        <p><b>Tea Creek Trail System</b></p>
+      </div>
+    </div>
+    <div class="w3-third w3-container">
+      <a href="https://robinmaps.com/project/alt/index.html"><img src="/images/ALT.PNG" alt="Allegheney Trail Map" style="width:100%" class="w3-hover-opacity, square"></a>
+      <div class="w3-container w3-grey">
+        <p><b>The Allegheny Trail</b></p>
+      </div>
+    </div>
   </div>
 
-  <div class='box3'>
-    <h4> Watoga State Park Foundation:
-    <a href="https://www.watogafoundation.org/5k-race/">5K</a> and Half Marathon</h4>
-    <img src="/images/Watoga5k.PNG" alt="Watoga5kmap" class="square" >
+  <!-- Second Photo Grid-->
+  <div class="w3-row-padding">
+    <div class="w3-third w3-container w3-margin-bottom">
+      <a href="https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/stelprdb5066342.pdf"><img src="/images/HSH.PNG" alt="Highland Scenic Highway Map" style="width:100%" class="w3-hover-opacity, square"></a>
+      <div class="w3-container w3-grey">
+        <p><b>Highland Scenic Highway</b></p>
+      </div>
+    </div>
+    <div class="w3-third w3-container w3-margin-bottom">
+      <a href="https://www.fs.usda.gov/Internet/FSE_DOCUMENTS/stelprdb5350764.pdf"><img src="/images/MarlinMountain.PNG" alt="Norway" style="width:100%" class="w3-hover-opacity, square"></a>
+      <div class="w3-container w3-grey">
+        <p><b>Marlin Mountain Area Trails</b></p>
+      </div>
+    </div>
+    <div class="w3-third w3-container">
+      <a href="https://www.watogafoundation.org/5k-race/"><img src="/images/Watoga5k.PNG" alt="Norway" style="width:100%" class="w3-hover-opacity, square"></a>
+      <div class="w3-container w3-grey">
+        <p><b>Watoga State Park 5k</b></p>
+      </div>
+    </div>
   </div>
 
-</div>
 
   </section>
 <script>
