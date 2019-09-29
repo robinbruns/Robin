@@ -88,7 +88,7 @@ kk<!DOCTYPE html>
 		// request some basemap tiles and add to the map
 		var tiles = L.tileLayer(basemap_source, basemap_options).addTo(map);
 
-		$.getJSON("data/Route.geojson", function(data ,) {
+		$.getJSON("data/Routes.geojson", function(data ,) {
   // the data loaded from the file is accessible here within this function scope!
 	console.log(data);
 	L.geoJson(data, {
