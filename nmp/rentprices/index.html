@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset=utf-8 />
+  <title>Lab 09 Starter</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
+  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: whitesmoke;
+      font-family: Lato, sans-serif;
+      color: #0D0000;
+    }
+
+    header {
+      width: 80%;
+      margin: 10px auto 10px auto;
+    }
+
+    h1 {
+      display: inline-block;
+      margin-right: 20px;
+      color: #001323;
+    }
+
+    h2 {
+      display: inline-block;
+      color: #001323;
+    }
+
+    #map {
+      width: 80%;
+      height: 540px;
+      margin: 10px 10%;
+      background: whitesmoke;
+      border: 2px solid #dddedf;
+    }
+
+    footer {
+      padding: 6px 10%;
+      width: 80%;
+    }
+
+    p {
+      font-size: 1em;
+      color: #001323;
+    }
+
+    .legend {
+      padding: 6px 8px;
+      font-size: 1em;
+      background: rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+      border-radius: 5px;
+    }
+
+    .legend h3 {
+      font-size: 1.1em;
+      font-weight: normal;
+      color: #001323;
+      margin: 0 0 10px 0;
+    }
+
+    .legend span {
+      width: 20px;
+      height: 20px;
+      float: left;
+      margin: 0 10px 4px 0;
+    }
+
+    .legend label {
+      font-size: 1.1em;
+    }
+
+    .legend label:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Median Rent in America</h1>
+    <!-- <h2>Map Subtitle</h2> -->
+  </header>
+
+  <div id='map'></div>
+
+  <footer>
+    <p>Map authored by Robin Bruns</p>
+    <p>Data Provided by <a href="https://factfinder.census.gov/faces/nav/jsf/pages/index.xhtml">American FactFinder</a> and <a href="https://www.census.gov/geo/maps-data/data/cbf/cbf_counties.html">US Census</a></p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/simple-statistics@6.1.1/dist/simple-statistics.min.js"></script>
+
+  <script>
+    // MAKE AN AWESOME WEB MAP!
+    var options = {
+      center: [37.9, -97.3],
+      zoom: 4.4,
+      zoomSnap: .1,
+      // zoomControl: false
+    }
+    var map = L.map('map', options);
+
+    var attributeValue = 'RENT';
+
+    // $.getJSON() here
+    // create variable for object (will populate after it is drawn)
+    var countiesLayer = $.getJSON("data/counties_median_rent_2015.json", function(data) {
+      // the data loaded from the file is accessible here within this function scope!
+      // console.log(data);
+      var dataLayer = L.geoJson(data, {
+        style: function(feature) {
+          return {
+            // color: '#dddddd',
+            color: '#444', //medium gray
+            weight: 1,
+            fillOpacity: 1,
+            fillColor: '#1f78b4'
+          };
+        }
+      })
+      dataLayer.addTo(map)
+
+      drawMap(dataLayer);
+    });
+
+    function drawMap(dataLayer) {
+      // we now have access to dataLayer here!
+
+      var getBreaks = getClassBreaks(dataLayer);
+      dataLayer.eachLayer(function(layer) {
+
+        // layer.setStyle( { fillColor: 'yellow' } );
+
+        layer.setStyle({
+          fillColor: getColor(layer.feature.properties.RENT, getBreaks)
+        });
+        // });
+      });
+      drawLegend(getBreaks);
+      drawtooltip(dataLayer);
+    }
+
+    function getClassBreaks(dataLayer) {
+      // code here to determine range and establish classification breaks
+
+      var values = [];
+      dataLayer.eachLayer(function(layer) {
+        // shorthand reference to properties
+
+        var value = layer.feature.properties.RENT;
+        numberValue = Number(value);
+
+        // push that value to the array
+        if (numberValue > 0) {
+          values.push(numberValue);
+        }
+      });
+      // console.log(values);
+
+      // determine similar clusters
+      var clusters = ss.ckmeans(values, 5);
+
+      // create an array of the lowest value within each cluster
+      var breaks = clusters.map(function(clusters) {
+        return [clusters[0], clusters.pop()];
+
+      });
+      return breaks; // return Array of class breaks
+    } // end getClassBreaks function
+
+    function getColor(d, breaks) {
+
+      if (d <= breaks[0][1]) {
+        return '#fef0d9';
+      } else if (d <= breaks[1][1]) {
+        return '#fdcc8a';
+      } else if (d <= breaks[2][1]) {
+        return '#fc8d59';
+      } else if (d <= breaks[3][1]) {
+        return '#e34a33'
+      } else if (d <= breaks[4][1]) {
+        return '#b30000'
+      }
+    } // end getColor
+
+    function drawLegend(breaks) {
+
+      // console.log(breaks);
+
+      // create the Leaflet control and position
+      var legend = L.control({
+        position: 'bottomright'
+      });
+
+      // when it's added to the map
+      legend.onAdd = function() {
+
+        // create a new DOM div element with a class name of "legend"
+        var div = L.DomUtil.create('div', 'legend');
+
+        div.innerHTML = "<h3>Median Rent</h3>";
+
+        for (var i = 0; i < breaks.length; i++) {
+
+          var color = getColor(breaks[i][0], breaks);
+
+          div.innerHTML +=
+            '<span style="background:' + color + '"></span> ' +
+            '<label>' + '$' + (breaks[i][0]) + ' &mdash; ' + '$' +
+            (breaks[i][1]) + '</label>';
+        }
+
+        // return the div element
+        return div;
+
+      };
+
+      // add the legend to the map
+      legend.addTo(map);
+
+    }
+
+    function drawtooltip(dataLayer) {
+
+      dataLayer.eachLayer(function(layer) {
+        var props = layer.feature.properties
+        var tooltip = "<b>County Name: </b>" + props.NAME + '<br />' + "<b>Rent: </b>$" + props.RENT;
+
+        // we now have access to dataLayer here!
+        if (L.Browser.mobile) {
+          // if true use popup
+          layer.bindPopup(tooltip);
+        } else {
+          // if false use tooltip
+          layer.bindTooltip(tooltip, {
+            sticky: true
+          });
+        };
+      });
+    }
+
+    // when countiesLayer is done loading, do the following...
+    $.when(countiesLayer).done(function() {
+    //add state boundaries
+    $.getJSON("data/us_states_20m.geojson", function(data) {
+    
+    
+      var stateLayer = L.geoJson(data, {
+        style: function(feature) {
+          return {
+            // Let's experiment with these colors shortly
+            // color: '#222222', // Gray
+            // color: '#ffffff', // White
+            color: '#222', //dark grey
+            // Make line weight larger than the county outline
+            weight: 2.2,
+            fillOpacity: 0,
+            // This property allows us to interact with layers beneath
+            interactive: false,
+          };
+        }
+    
+    
+      });
+    
+      // Add layer to map!
+      stateLayer.addTo(map)
+    
+    });
+  })
+  </script>
+
+</body>
+
+</html>
